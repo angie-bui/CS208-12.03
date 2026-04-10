@@ -1,8 +1,16 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: Arial;
+  margin: 20px;
 }
 
-a {
-  color: #00B7FF;
+li {
+  margin-bottom: 10px;
+}
+
+input {
+  margin-right: 5px;
+}
+
+button {
+  margin-left: 5px;
 }

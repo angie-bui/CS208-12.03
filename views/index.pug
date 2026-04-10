@@ -1,23 +1,47 @@
-extends layout
-
 block content
   h1= title
   p Welcome to #{title}
+
+  if error
+    p(style="color:red")= error
+
   ol
-  each val in todos
-    li
-      span= val.task + ' - '
-      if val.completed > 0
-        span Completed
-      else
-        span Not Completed
-      form(method='POST' action='/delete')
-        input(type='hidden', name='id', value=val.id)
-        button(type='submit') Delete
+    each val in todos
+      li
+        form(method='POST', action='/update')
+          input(type='hidden', name='id', value=val.id)
+
+          input(type='text', name='task', value=val.task, required)
+
+          label(for='completed-' + val.id) Completed
+          if val.completed > 0
+            input(type='checkbox', name='completed', id='completed-' + val.id, checked)
+          else
+            input(type='checkbox', name='completed', id='completed-' + val.id)
+
+          button(type='submit') Save
+
+        // DELETE
+        form(method='POST', action='/delete')
+          input(type='hidden', name='id', value=val.id)
+          button(type='submit') Delete
 
   hr
+
   h2 Add a new task
-  form(method='POST' action='/create')
+
+  form(method='POST', action='/create')
     label(for='task') Task:
     input(type='text', name='task', id='task', required)
     button(type='submit') Create Task
+
+  script.
+    const form = document.querySelector('form[action="/create"]');
+    const input = document.getElementById('task');
+
+    form.addEventListener('submit', function (e) {
+      if (input.value.trim() === '') {
+        e.preventDefault();
+        alert('Task cannot be empty');
+      }
+    });
